@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * @file get_param.php
  * @brief get dummy parameters.
