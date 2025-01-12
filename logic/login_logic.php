@@ -5,8 +5,6 @@
  * @author nagata
  */
 
-require_once __DIR__ . '/../param/get_param.php';
-
 /**
  * @brief hashing with SHA512.
  * @param $toBeHash [string] string to be hashed.
@@ -16,6 +14,18 @@ function toHash(string $toBeHash): string{
     return password_hash($toBeHash, PASSWORD_DEFAULT);
 }
 
+/**
+ * @brief is match id.
+ * @param $inputId [string] user input id.
+ * @param $masterId [string] id stored in DB.
+ * @retval [string] is match id.
+ */
+function isMatchId(string $inputId, string $masterId){
+    return $inputId === $masterId;
+}
+
 $hashedPassword = toHash('aaa');
 var_dump($hashedPassword);
-echo(password_verify('aaa', $hashedPassword));
+var_dump(password_verify('aaa', $hashedPassword));
+var_dump(isMatchId('aaa', 'aaa'));
+var_dump(isMatchId('aaa', 'bbb'));
