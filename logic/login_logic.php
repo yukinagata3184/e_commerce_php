@@ -6,7 +6,7 @@
  */
 
 /**
- * @brief hashing with SHA512.
+ * @brief to hashing.
  * @param $toBeHash [string] string to be hashed.
  * @retval [string] after hashing.
  */
@@ -23,9 +23,3 @@ function toHash(string $toBeHash): string{
 function isMatchId(string $inputId, string $masterId){
     return $inputId === $masterId;
 }
-
-$hashedPassword = toHash('aaa');
-var_dump($hashedPassword);
-var_dump(password_verify('aaa', $hashedPassword));
-var_dump(isMatchId('aaa', 'aaa'));
-var_dump(isMatchId('aaa', 'bbb'));
