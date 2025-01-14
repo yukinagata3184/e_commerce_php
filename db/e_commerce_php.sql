@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- ホスト: 127.0.0.1
--- 生成日時: 2025-01-13 12:11:48
+-- 生成日時: 2025-01-14 22:47:27
 -- サーバのバージョン： 10.4.32-MariaDB
 -- PHP のバージョン: 8.0.30
 
@@ -71,26 +71,26 @@ INSERT INTO `m_group` (`group_id`, `group_explain`) VALUES
 DROP TABLE IF EXISTS `m_member`;
 CREATE TABLE `m_member` (
   `member_cd` int(10) UNSIGNED NOT NULL,
-  `member_id` varchar(64) NOT NULL,
   `member_password` varchar(255) NOT NULL,
   `member_name` varchar(100) NOT NULL,
+  `member_ruby` varchar(100) NOT NULL,
   `member_email` varchar(100) NOT NULL,
-  `member_tel` int(10) UNSIGNED NOT NULL,
-  `member_zip_code` int(10) UNSIGNED NOT NULL,
+  `member_tel` varchar(15) NOT NULL,
+  `member_zip_code` varchar(7) NOT NULL,
   `prefecture_id` tinyint(3) UNSIGNED NOT NULL,
   `member_address` varchar(200) NOT NULL,
   `member_room_number` varchar(100) DEFAULT NULL,
   `member_birth` date DEFAULT NULL,
-  `member_gender` varchar(2) DEFAULT NULL
+  `gender_id` tinyint(3) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- テーブルのデータのダンプ `m_member`
 --
 
-INSERT INTO `m_member` (`member_cd`, `member_id`, `member_password`, `member_name`, `member_email`, `member_tel`, `member_zip_code`, `prefecture_id`, `member_address`, `member_room_number`, `member_birth`, `member_gender`) VALUES
-(1, 'user1', 'password1', 'ユーザ太郎', 'user1@example.com', 1111111111, 1111111, 1, '札幌市架空1-1', '101号室', '2001-01-01', '1'),
-(2, 'user2', 'password2', 'ユーザ花子', 'user2@example.com', 2222222222, 2222222, 2, '青森市架空2-2', '202号室', '2002-02-02', '2');
+INSERT INTO `m_member` (`member_cd`, `member_password`, `member_name`, `member_ruby`, `member_email`, `member_tel`, `member_zip_code`, `prefecture_id`, `member_address`, `member_room_number`, `member_birth`, `gender_id`) VALUES
+(1, 'password1', 'ユーザ太郎', 'ユーザタロウ', 'user1@example.com', '1111111111', '1111111', 1, '札幌市架空1-1', '101号室', '2001-01-01', 1),
+(2, 'password2', 'ユーザ花子', 'ユーザハナコ', 'user2@example.com', '2222222222', '2222222', 2, '青森市架空2-2', '202号室', '2002-02-02', 2);
 
 -- --------------------------------------------------------
 
@@ -223,6 +223,14 @@ CREATE TABLE `t_buy_history` (
   `sales_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- テーブルのデータのダンプ `t_buy_history`
+--
+
+INSERT INTO `t_buy_history` (`buy_history_id`, `member_cd`, `sales_id`) VALUES
+(1, 1, 1),
+(2, 2, 2);
+
 -- --------------------------------------------------------
 
 --
@@ -233,11 +241,20 @@ DROP TABLE IF EXISTS `t_contact`;
 CREATE TABLE `t_contact` (
   `contact_id` int(10) UNSIGNED NOT NULL,
   `contact_name` varchar(100) NOT NULL,
+  `contact_ruby` varchar(100) NOT NULL,
   `contact_email` varchar(100) NOT NULL,
   `contact_tel` varchar(15) NOT NULL,
-  `contact_details` varchar(1000) NOT NULL,
-  `member_cd` int(10) UNSIGNED DEFAULT NULL
+  `contact_title` varchar(100) NOT NULL,
+  `contact_details` varchar(1000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- テーブルのデータのダンプ `t_contact`
+--
+
+INSERT INTO `t_contact` (`contact_id`, `contact_name`, `contact_ruby`, `contact_email`, `contact_tel`, `contact_title`, `contact_details`) VALUES
+(1, 'ユーザ太郎', 'ユーザタロウ', 'user1@example.com', '1111111111', '問い合わせ1', '問い合わせ1の内容です。'),
+(2, 'ユーザ花子', 'ユーザハナコ', 'user2@example.com', '2222222222', '問い合わせ2', '問い合わせ2の内容です。');
 
 -- --------------------------------------------------------
 
@@ -249,9 +266,18 @@ DROP TABLE IF EXISTS `t_credit_card`;
 CREATE TABLE `t_credit_card` (
   `member_cd` int(10) UNSIGNED NOT NULL,
   `credit_card_number` varchar(16) NOT NULL,
-  `credit_card_expiration` int(11) NOT NULL,
-  `credit_card_name` varchar(100) NOT NULL
+  `credit_card_expiration` date NOT NULL,
+  `credit_card_name` varchar(100) NOT NULL,
+  `credit_card_cvc` varchar(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- テーブルのデータのダンプ `t_credit_card`
+--
+
+INSERT INTO `t_credit_card` (`member_cd`, `credit_card_number`, `credit_card_expiration`, `credit_card_name`, `credit_card_cvc`) VALUES
+(1, '1234567890123456', '2028-01-31', 'USER TARO', '111'),
+(2, '1234567891123456', '2029-01-31', 'USER HANAKO', '222');
 
 -- --------------------------------------------------------
 
@@ -269,6 +295,14 @@ CREATE TABLE `t_customer_info` (
   `customer_birth` date DEFAULT NULL,
   `gender_id` tinyint(3) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- テーブルのデータのダンプ `t_customer_info`
+--
+
+INSERT INTO `t_customer_info` (`customer_id`, `customer_zip_code`, `prefecture_id`, `customer_address`, `customer_room_number`, `customer_birth`, `gender_id`) VALUES
+(1, '1111111', 1, '札幌市架空1-1', '101号室', '2001-01-01', 1),
+(2, '2222222', 2, '青森市架空2-2', '202号室', '2002-02-02', 2);
 
 -- --------------------------------------------------------
 
@@ -305,6 +339,14 @@ CREATE TABLE `t_sales` (
   `sales_num` int(10) UNSIGNED NOT NULL,
   `sales_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- テーブルのデータのダンプ `t_sales`
+--
+
+INSERT INTO `t_sales` (`sales_id`, `customer_id`, `product_id`, `sales_num`, `sales_date`) VALUES
+(1, 1, 1, 5, '2023-01-01'),
+(2, 2, 2, 6, '2023-01-02');
 
 -- --------------------------------------------------------
 
@@ -368,7 +410,8 @@ ALTER TABLE `m_group`
 --
 ALTER TABLE `m_member`
   ADD PRIMARY KEY (`member_cd`),
-  ADD KEY `prefecture_id` (`prefecture_id`);
+  ADD KEY `prefecture_id` (`prefecture_id`),
+  ADD KEY `gender_id` (`gender_id`);
 
 --
 -- テーブルのインデックス `m_prefecture`
@@ -400,8 +443,7 @@ ALTER TABLE `t_buy_history`
 -- テーブルのインデックス `t_contact`
 --
 ALTER TABLE `t_contact`
-  ADD PRIMARY KEY (`contact_id`),
-  ADD KEY `member_cd` (`member_cd`);
+  ADD PRIMARY KEY (`contact_id`);
 
 --
 -- テーブルのインデックス `t_credit_card`
@@ -481,19 +523,19 @@ ALTER TABLE `m_season`
 -- テーブルの AUTO_INCREMENT `t_buy_history`
 --
 ALTER TABLE `t_buy_history`
-  MODIFY `buy_history_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `buy_history_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- テーブルの AUTO_INCREMENT `t_contact`
 --
 ALTER TABLE `t_contact`
-  MODIFY `contact_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `contact_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- テーブルの AUTO_INCREMENT `t_customer_info`
 --
 ALTER TABLE `t_customer_info`
-  MODIFY `customer_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `customer_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- テーブルの AUTO_INCREMENT `t_group`
@@ -505,7 +547,7 @@ ALTER TABLE `t_group`
 -- テーブルの AUTO_INCREMENT `t_sales`
 --
 ALTER TABLE `t_sales`
-  MODIFY `sales_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `sales_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- テーブルの AUTO_INCREMENT `t_season`
@@ -521,7 +563,8 @@ ALTER TABLE `t_season`
 -- テーブルの制約 `m_member`
 --
 ALTER TABLE `m_member`
-  ADD CONSTRAINT `m_member_ibfk_1` FOREIGN KEY (`prefecture_id`) REFERENCES `m_prefecture` (`prefecture_id`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `m_member_ibfk_1` FOREIGN KEY (`prefecture_id`) REFERENCES `m_prefecture` (`prefecture_id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `m_member_ibfk_2` FOREIGN KEY (`gender_id`) REFERENCES `m_gender` (`gender_id`) ON UPDATE CASCADE;
 
 --
 -- テーブルの制約 `t_buy_history`
@@ -529,12 +572,6 @@ ALTER TABLE `m_member`
 ALTER TABLE `t_buy_history`
   ADD CONSTRAINT `t_buy_history_ibfk_1` FOREIGN KEY (`member_cd`) REFERENCES `m_member` (`member_cd`) ON UPDATE CASCADE,
   ADD CONSTRAINT `t_buy_history_ibfk_2` FOREIGN KEY (`sales_id`) REFERENCES `t_sales` (`sales_id`) ON UPDATE CASCADE;
-
---
--- テーブルの制約 `t_contact`
---
-ALTER TABLE `t_contact`
-  ADD CONSTRAINT `t_contact_ibfk_1` FOREIGN KEY (`member_cd`) REFERENCES `m_member` (`member_cd`) ON UPDATE CASCADE;
 
 --
 -- テーブルの制約 `t_credit_card`
