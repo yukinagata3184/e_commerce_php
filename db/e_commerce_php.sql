@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- ホスト: 127.0.0.1
--- 生成日時: 2025-01-14 22:47:27
+-- 生成日時: 2025-01-17 21:34:39
 -- サーバのバージョン： 10.4.32-MariaDB
 -- PHP のバージョン: 8.0.30
 
@@ -89,7 +89,7 @@ CREATE TABLE `m_member` (
 --
 
 INSERT INTO `m_member` (`member_cd`, `member_password`, `member_name`, `member_ruby`, `member_email`, `member_tel`, `member_zip_code`, `prefecture_id`, `member_address`, `member_room_number`, `member_birth`, `gender_id`) VALUES
-(1, 'password1', 'ユーザ太郎', 'ユーザタロウ', 'user1@example.com', '1111111111', '1111111', 1, '札幌市架空1-1', '101号室', '2001-01-01', 1),
+(1, '$2y$10$MH15ZWrCfldgtDwa2MkPN..PqFCfeaj1QbZChQAQg0rncNAaRRq0a', 'ユーザ太郎', 'ユーザタロウ', 'user1@example.com', '1111111111', '1111111', 1, '札幌市架空1-1', '101号室', '2001-01-01', 1),
 (2, 'password2', 'ユーザ花子', 'ユーザハナコ', 'user2@example.com', '2222222222', '2222222', 2, '青森市架空2-2', '202号室', '2002-02-02', 2);
 
 -- --------------------------------------------------------
@@ -168,6 +168,7 @@ CREATE TABLE `m_product` (
   `product_id` int(10) UNSIGNED NOT NULL,
   `product_name_jpn` varchar(200) NOT NULL,
   `product_value` int(10) UNSIGNED NOT NULL,
+  `product_abstract` varchar(255) DEFAULT NULL,
   `product_explain` varchar(1000) DEFAULT NULL,
   `product_image` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -176,9 +177,9 @@ CREATE TABLE `m_product` (
 -- テーブルのデータのダンプ `m_product`
 --
 
-INSERT INTO `m_product` (`product_id`, `product_name_jpn`, `product_value`, `product_explain`, `product_image`) VALUES
-(1, '商品1', 100, '商品1です。', 'product1.jpg'),
-(2, '商品2', 200, '商品2です。', 'product2.jpg');
+INSERT INTO `m_product` (`product_id`, `product_name_jpn`, `product_value`, `product_abstract`, `product_explain`, `product_image`) VALUES
+(1, '商品1', 100, '商品1の概要です。', '商品1の詳細説明です。', 'product1.jpg'),
+(2, '商品2', 200, '商品2の概要です。', '商品2の詳細説明です。', 'product2.jpg');
 
 -- --------------------------------------------------------
 
