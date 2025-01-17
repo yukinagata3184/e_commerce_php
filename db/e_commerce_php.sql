@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- ホスト: 127.0.0.1
--- 生成日時: 2025-01-17 21:26:07
+-- 生成日時: 2025-01-17 21:34:39
 -- サーバのバージョン： 10.4.32-MariaDB
 -- PHP のバージョン: 8.0.30
 
@@ -168,7 +168,7 @@ CREATE TABLE `m_product` (
   `product_id` int(10) UNSIGNED NOT NULL,
   `product_name_jpn` varchar(200) NOT NULL,
   `product_value` int(10) UNSIGNED NOT NULL,
-  `product_abstract` varchar(255) NOT NULL,
+  `product_abstract` varchar(255) DEFAULT NULL,
   `product_explain` varchar(1000) DEFAULT NULL,
   `product_image` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
