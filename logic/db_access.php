@@ -4,11 +4,13 @@
  * @brief DBへのアクセス、SQLのSELECT関連の関数を実装する。
  */
 
+require_once __DIR__ . '/../param/get_param.php';
+
 /**
  * @brief データベースオブジェクトを取得する.
  * @retval [PDO] データベースオブジェクトを返す.
  */
-function db_open() :PDO {
+function dbOpen() :PDO {
     $user = getDbUser();
     $password = getDbPassword();
     $opt = [
