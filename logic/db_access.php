@@ -53,3 +53,28 @@ function getLoginInfo(PDO $dbh, string $email): array {
     $result = $stmt->fetchAll();
     return $result;
 }
+
+/**
+ * @brief DBから引数で与えたグループの商品を配列で取得する。
+ * @param $dbh [PDO] openDb()で取得したデータベースオブジェクトを指定。
+ * @param $tableName [string] 't_group'または't_season'を指定。
+ * @param $columnName [string] 'group_id'または'season_id'を指定。
+ * @param $id [int] 取得したい商品グループIDまたは季節IDを指定。
+ * @retval [array] DBから取得した商品の配列。
+ */
+function getDbSelected(PDO $dbh, string $tableName, string $columnName ,int $id): array{
+    $sql = "SELECT id.`product_id`, id.`$columnName`, 
+                   product.`product_name_jpn`, product.`product_value`, 
+                   product.`product_abstract`, product.`product_explain`, product.`product_image`
+            FROM `m_product` `product`
+            INNER JOIN `$tableName` `id`
+            ON product.`product_id` = id.`product_id`
+            WHERE id.`product_id` = :product_id";
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':product_id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $result;
+}
+
+var_dump(getDbSelected(openDb(), 't_season', 'season_id', 1));
