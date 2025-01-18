@@ -30,7 +30,7 @@ function openDb() :PDO {
  * @retval [array] 選択したテーブルのカラムとレコード全件を格納した配列。
  */
 function getDbAll(PDO $dbh, string $tableName): array {
-    $sql = 'SELECT * FROM `$tableName`';
+    $sql = "SELECT * FROM `$tableName`";
     $stmt = $dbh->prepare($sql);
     $stmt->execute();
     $result = $stmt->fetchAll();
@@ -41,12 +41,12 @@ function getDbAll(PDO $dbh, string $tableName): array {
  * @brief DBからログイン情報を配列で取得する。
  * @param $dbh [PDO] db_open()で取得したデータベースオブジェクトを指定。
  * @param $email [string] ログインするメールアドレスを指定。
- * @retval [array] DBから取得したメールアドレスとパスワード、氏名を格納した配列.
+ * @retval [array] DBから取得したメールアドレスとパスワード、氏名を格納した配列。
  */
 function getLoginInfo(PDO $dbh, string $email): array {
-    $sql = 'SELECT `member_email`, `member_password`, `member_name`
+    $sql = "SELECT `member_email`, `member_password`, `member_name`
             FROM `m_member`
-            WHERE `member_email` = :member_email';
+            WHERE `member_email` = :member_email";
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(":member_email", $email, PDO::PARAM_STR);
     $stmt->execute();

@@ -29,6 +29,21 @@ function testGetDbAll(PDO $dbh, string $tableName): void {
     echo ' カラム数:' . count($allTable[0]) / count($allTable) . '<br>' . PHP_EOL;
 }
 
+/**
+ * @brief getLoginInfo()でログイン情報を配列で取得できているかテスト。
+ * @param $dbh [PDO] dbOpen()で取得したデータベースオブジェクトを指定。
+ * @param $email [string] 取得する会員のメールアドレスを指定。
+ */
+function testGetLoginInfo(PDO $dbh, string $email): void {
+    $loginInfo = getLoginInfo($dbh, $email);
+    echo 'testGetLoginInfo : ' . '<br>' . PHP_EOL;
+    echo ' メール:' . $loginInfo[0]['member_email'] . '<br>' . PHP_EOL;
+    echo ' パスワード:' . $loginInfo[0]['member_password'] . '<br>' . PHP_EOL;
+    echo ' ユーザ名:' . $loginInfo[0]['member_name'] . '<br>' . PHP_EOL;
+}
+
 testOpenDb();
 testGetDbAll(openDb(), 'm_product');
 testGetDbAll(openDb(), 'm_member');
+testGetLoginInfo(openDb(), 'user1@example.com');
+testGetLoginInfo(openDb(), 'user2@example.com');
