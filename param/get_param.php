@@ -9,7 +9,7 @@
  * @brief return the dummy salt.
  * @retval [string] dummy salt.
  */
-function getSalt(): string{
+function getSalt(): string {
     return 'h2Xib8jENmQve4dVXDeQ';
 }
 
@@ -17,6 +17,14 @@ function getSalt(): string{
  * @brief return the dummy DB password.
  * @retval [string] dummy DB password.
  */
-function getDbPassword(): string{
+function getDbPassword(): string {
     return 'qpBSBwz4ac4wYUdznPRALaF2jygRZaTb';
+}
+
+/**
+ * @brief return the dummy DB user.
+ * @retval [string] dummy DB user.
+ */
+function getDbUser(): string {
+    return 'admin';
 }
