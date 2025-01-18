@@ -76,5 +76,3 @@ function getDbSelected(PDO $dbh, string $tableName, string $columnName ,int $id)
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $result;
 }
-
-var_dump(getDbSelected(openDb(), 't_season', 'season_id', 1));

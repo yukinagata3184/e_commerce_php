@@ -42,8 +42,23 @@ function testGetLoginInfo(PDO $dbh, string $email): void {
     echo ' ユーザ名:' . $loginInfo[0]['member_name'] . '<br>' . PHP_EOL;
 }
 
+/**
+ * @brief getDbSelected()で選択した商品が配列で取得できているかテスト。
+ * @param $dbh [PDO] openDb()で取得したデータベースオブジェクトを指定。
+ * @param $tableName [string] 't_group'または't_season'を指定。
+ * @param $columnName [string] 'group_id'または'season_id'を指定。
+ * @param $id [int] 取得したい商品グループIDまたは季節IDを指定。
+ */
+function testGetDbSelected(PDO $dbh, string $tableName, string $columnName ,int $id): void {
+    $selectedItem = getDbSelected(openDb(), 't_season', 'season_id', 1);
+    echo 'testGetDbSelected : ' . $columnName . '=' . $id . '<br>' . PHP_EOL;
+    var_dump($selectedItem);
+}
+
 testOpenDb();
 testGetDbAll(openDb(), 'm_product');
 testGetDbAll(openDb(), 'm_member');
 testGetLoginInfo(openDb(), 'user1@example.com');
 testGetLoginInfo(openDb(), 'user2@example.com');
+testGetDbSelected(openDb(), 't_group', 'group_id', 1);
+testGetDbSelected(openDb(), 't_season', 'season_id', 1);
