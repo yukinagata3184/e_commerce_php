@@ -66,6 +66,17 @@ function testGetDbSalesRank(PDO $dbh, int $salesRank): void {
     var_dump($rank);
 }
 
+/**
+ * @brief searchProductFmDb()で指定した商品名が含まれる商品情報を取得できるかテスト。
+ * @param $dbh [PDO] openDb()で取得したデータベースオブジェクトを指定。
+ * @param $salesRank [string] 検索したい商品名を指定。
+ */
+function testSearchProductFmDb(PDO $dbh, string $searchWord): void {
+    $search = searchProductFmDb($dbh, $searchWord);
+    echo 'testSearchProductFmDb : ' . '検索キーワード=' . $searchWord . '<br>' . PHP_EOL;
+    var_dump($search);
+}
+
 testOpenDb();
 testGetDbAll(openDb(), 'm_product');
 testGetDbAll(openDb(), 'm_member');
@@ -75,3 +86,5 @@ testGetDbSelected(openDb(), 't_group', 'group_id', 1);
 testGetDbSelected(openDb(), 't_season', 'season_id', 1);
 testGetDbSalesRank(openDb(), 1);
 testGetDbSalesRank(openDb(), 3);
+testSearchProductFmDb(openDb(), '商品');
+testSearchProductFmDb(openDb(), '存在しない');

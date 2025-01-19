@@ -98,3 +98,22 @@ function getDbSalesRank(PDO $dbh, int $salesRank): array {
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $result;
 }
+
+/**
+ * @brief DBから検索したい商品名が含まれる商品情報を配列で取得できる。
+ * @param $dbh [PDO] openDb()で取得したデータベースオブジェクトを指定。
+ * @param $salesRank [string] 検索したい商品名を指定。
+ * @retval [array] DBから取得した検索したい商品名が含まれる商品情報の配列。
+ */
+function searchProductFmDb(PDO $dbh, string $searchWord): array {
+    $sql = "SELECT `product_id`, `product_name_jpn`, `product_value`, 
+                   `product_abstract`, `product_explain`, `product_image`
+            FROM `m_product`
+            WHERE `product_name_jpn` LIKE :search";
+    $stmt = $dbh->prepare($sql);
+    $searchConditions = '%' . $searchWord . '%';
+    $stmt->bindParam(':search', $searchConditions, PDO::PARAM_STR);
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $result;
+}
