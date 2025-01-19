@@ -117,3 +117,17 @@ function searchProductFmDb(PDO $dbh, string $searchWord): array {
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $result;
 }
+
+/**
+ * @brief 登録するメールアドレスがユニークかチェックする。
+ * @param $email [string] 登録するメールアドレス。
+ * @retval [bool] 登録するメールアドレスが既に存在するか。
+ */
+function isExistEmail(PDO $dbh, string $email): bool {
+    $sql = "SELECT `member_email` FROM `m_member` WHERE `member_email` = :member_email";
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindValue(':member_email', $email, PDO::PARAM_STR);
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return !empty($result);
+}
