@@ -29,3 +29,42 @@ function insertDbContact(PDO $dbh, string $name, string $ruby, string $email, st
     $stmt->bindParam(':details', $details);
     $stmt->execute();
 }
+
+/**
+ * @brief 会員情報の入力フォームに入力された情報をDBに保存。
+ * @param $dbh [PDO] db_open()で取得したデータベースオブジェクトを指定。
+ * @param $password [string] パスワード。
+ * @param $name [string] 氏名。
+ * @param $ruby [string] フリガナ。
+ * @param $email [string] メールアドレス。
+ * @param $tel [string] 電話番号。
+ * @param $zip_code [string] 郵便番号。
+ * @param $prefecture_id [string] 都道府県コード。
+ * @param $address [string] 住所。
+ * @param $room_number [string] 部屋番号。
+ * @param $birth [string] 生年月日。
+ * @param $gender_id [string] 性別コード。
+ */
+function insertDbMember(PDO $dbh, string $password, string $name, string $ruby, 
+                        string $email, string $tel, string $zip_code, string $prefecture_id,
+                        string $address, string $room_number,
+                        string $birth, string $gender_id): void {
+    $sql = "INSERT INTO `m_member` (`member_password`, `member_name`, `member_ruby`,
+                        `member_email`, `member_tel`, `member_zip_code`, `prefecture_id`,
+                        `member_address`, `member_room_number`, `member_birth`, `gender_id`)
+            VALUES (:password, :name, :ruby, :email, :tel, :zip_code, :prefecture_id,
+                    :address, :room_number, :birth, :gender_id)";
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':password', $password);
+    $stmt->bindParam(':name', $name);
+    $stmt->bindParam(':ruby', $ruby);
+    $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':tel', $tel);
+    $stmt->bindParam(':zip_code', $zip_code);
+    $stmt->bindParam(':prefecture_id', $prefecture_id);
+    $stmt->bindParam(':address', $address);
+    $stmt->bindParam(':room_number', $room_number);
+    $stmt->bindParam(':birth', $birth);
+    $stmt->bindParam(':gender_id', $gender_id);
+    $stmt->execute();
+}
