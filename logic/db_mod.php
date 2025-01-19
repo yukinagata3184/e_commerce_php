@@ -68,3 +68,26 @@ function insertDbMember(PDO $dbh, string $password, string $name, string $ruby,
     $stmt->bindParam(':gender_id', $gender_id);
     $stmt->execute();
 }
+
+/**
+ * @brief クレジットカードの決済情報をDBに保存(通常は同じDBに保存しないが今回は練習用)。
+ * @param $dbh [PDO] db_open()で取得したデータベースオブジェクトを指定。
+ * @param $member_cd [string] 会員コード。
+ * @param $number [string] カード番号。
+ * @param $expiration [string] 有効期限。
+ * @param $name [string] 名義人氏名。
+ * @param $cvc [string] セキュリティコード。
+ */
+function insertDbCreditCard(PDO $dbh, string $member_cd, string $number, string $expiration,
+                            string $name, string $cvc): void {
+    $sql = "INSERT INTO `t_credit_card` (`member_cd`, `credit_card_number`,
+                        `credit_card_expiration`, `credit_card_name`, `credit_card_cvc`) 
+            VALUES (:member_cd, :number, :expiration, :name, :cvc)";
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':member_cd', $member_cd);
+    $stmt->bindParam(':number', $number);
+    $stmt->bindParam(':expiration', $expiration);
+    $stmt->bindParam(':name', $name);
+    $stmt->bindParam(':cvc', $cvc);
+    $stmt->execute();
+}
