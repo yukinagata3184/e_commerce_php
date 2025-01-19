@@ -55,6 +55,17 @@ function testGetDbSelected(PDO $dbh, string $tableName, string $columnName ,int 
     var_dump($selectedItem);
 }
 
+/**
+ * @brief getDbSalesRank()の引数で与えた順位までの売上ランキング上位商品を配列で取得できるかテスト。
+ * @param $dbh [PDO] openDb()で取得したデータベースオブジェクトを指定。
+ * @param $salesRank [int] 売上何位までを取得するか指定。
+ */
+function testGetDbSalesRank(PDO $dbh, int $salesRank): void {
+    $rank = getDbSalesRank($dbh, $salesRank);
+    echo 'testGetDbSalesRank : ' . '順位=' . $salesRank . '<br>' . PHP_EOL;
+    var_dump($rank);
+}
+
 testOpenDb();
 testGetDbAll(openDb(), 'm_product');
 testGetDbAll(openDb(), 'm_member');
@@ -62,3 +73,5 @@ testGetLoginInfo(openDb(), 'user1@example.com');
 testGetLoginInfo(openDb(), 'user2@example.com');
 testGetDbSelected(openDb(), 't_group', 'group_id', 1);
 testGetDbSelected(openDb(), 't_season', 'season_id', 1);
+testGetDbSalesRank(openDb(), 1);
+testGetDbSalesRank(openDb(), 3);

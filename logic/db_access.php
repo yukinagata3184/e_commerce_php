@@ -76,3 +76,25 @@ function getDbSelected(PDO $dbh, string $tableName, string $columnName ,int $id)
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $result;
 }
+
+/**
+ * @brief DBから引数で与えた順位までの売上ランキング上位商品を配列で取得できる。
+ * @param $dbh [PDO] openDb()で取得したデータベースオブジェクトを指定。
+ * @param $salesRank [int] 売上何位までを取得するか指定。
+ * @retval [array] DBから取得した指定した売上順位までの商品の配列。
+ */
+function getDbSalesRank(PDO $dbh, int $salesRank): array {
+    $sql = "SELECT product.`product_id`, product.`product_name_jpn`, product.`product_value`, 
+                   product.`product_abstract`, product.`product_explain`, product.`product_image`,
+                   SUM(sales.`sales_num`) AS `sales_total`
+            FROM `m_product` `product`
+            INNER JOIN `t_sales` `sales`
+            ON product.`product_id` = sales.`product_id`
+            GROUP BY product.`product_id`
+            ORDER BY `sales_total` DESC LIMIT :rank";
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':rank', $salesRank, PDO::PARAM_INT);
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $result;
+}
