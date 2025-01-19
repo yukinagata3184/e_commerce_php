@@ -91,3 +91,19 @@ function insertDbCreditCard(PDO $dbh, string $member_cd, string $number, string 
     $stmt->bindParam(':cvc', $cvc);
     $stmt->execute();
 }
+
+/**
+ * @brief 在庫を更新する。
+ * @param $dbh [PDO] db_open()で取得したデータベースオブジェクトを指定。
+ * @param $product_id [int] 更新する商品のID。
+ * @param $stock_num [int] 更新する在庫数。
+ */
+function updateDbStock(PDO $dbh, int $product_id, int $stock_num): void {
+    $sql = "UPDATE `t_stock`
+            SET `stock_num` = :stock_num
+            WHERE `product_id` = :product_id";
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':stock_num', $stock_num, PDO::PARAM_INT);
+    $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
+    $stmt->execute();
+}
