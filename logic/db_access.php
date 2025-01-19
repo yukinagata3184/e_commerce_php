@@ -83,7 +83,7 @@ function getDbSelected(PDO $dbh, string $tableName, string $columnName ,int $id)
  * @param $salesRank [int] 売上何位までを取得するか指定。
  * @retval [array] DBから取得した指定した売上順位までの商品の配列。
  */
-function getDbSalesRank(PDO $dbh, int $salesRank) {
+function getDbSalesRank(PDO $dbh, int $salesRank): array {
     $sql = "SELECT product.`product_id`, product.`product_name_jpn`, product.`product_value`, 
                    product.`product_abstract`, product.`product_explain`, product.`product_image`,
                    SUM(sales.`sales_num`) AS `sales_total`
@@ -98,5 +98,3 @@ function getDbSalesRank(PDO $dbh, int $salesRank) {
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $result;
 }
-
-var_dump(getDbSalesRank(openDb(), 3));
