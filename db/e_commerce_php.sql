@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- ホスト: 127.0.0.1
--- 生成日時: 2025-01-17 21:34:39
+-- 生成日時: 2025-02-04 20:04:04
 -- サーバのバージョン： 10.4.32-MariaDB
 -- PHP のバージョン: 8.0.30
 
@@ -89,7 +89,7 @@ CREATE TABLE `m_member` (
 --
 
 INSERT INTO `m_member` (`member_cd`, `member_password`, `member_name`, `member_ruby`, `member_email`, `member_tel`, `member_zip_code`, `prefecture_id`, `member_address`, `member_room_number`, `member_birth`, `gender_id`) VALUES
-(1, '$2y$10$MH15ZWrCfldgtDwa2MkPN..PqFCfeaj1QbZChQAQg0rncNAaRRq0a', 'ユーザ太郎', 'ユーザタロウ', 'user1@example.com', '1111111111', '1111111', 1, '札幌市架空1-1', '101号室', '2001-01-01', 1),
+(1, '$2y$10$Qa1Ky6K8qDUDjfWN3AYrse5FqDX38M9E7GywEyerBHZwak9spEio.', 'ユーザ太郎', 'ユーザタロウ', 'user1@example.com', '1111111111', '1111111', 1, '札幌市架空1-1', '101号室', '2001-01-01', 1),
 (2, 'password2', 'ユーザ花子', 'ユーザハナコ', 'user2@example.com', '2222222222', '2222222', 2, '青森市架空2-2', '202号室', '2002-02-02', 2);
 
 -- --------------------------------------------------------
@@ -168,7 +168,7 @@ CREATE TABLE `m_product` (
   `product_id` int(10) UNSIGNED NOT NULL,
   `product_name_jpn` varchar(200) NOT NULL,
   `product_value` int(10) UNSIGNED NOT NULL,
-  `product_abstract` varchar(255) DEFAULT NULL,
+  `product_abstract` varchar(255) NOT NULL,
   `product_explain` varchar(1000) DEFAULT NULL,
   `product_image` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -178,8 +178,10 @@ CREATE TABLE `m_product` (
 --
 
 INSERT INTO `m_product` (`product_id`, `product_name_jpn`, `product_value`, `product_abstract`, `product_explain`, `product_image`) VALUES
-(1, '商品1', 100, '商品1の概要です。', '商品1の詳細説明です。', 'product1.jpg'),
-(2, '商品2', 200, '商品2の概要です。', '商品2の詳細説明です。', 'product2.jpg');
+(1, '商品1', 100, '商品1の概要だよ。', '商品1です。', 'product.png'),
+(2, '商品2', 200000000, '商品2の概要だよ。', '商品2です。', 'product.png'),
+(3, '商品3', 300, '商品3の概要だよ。', '商品3です。', 'product.png'),
+(4, '商品4', 400, '商品4の概要だよ。', '商品4です。', 'product.png');
 
 -- --------------------------------------------------------
 
@@ -210,6 +212,26 @@ INSERT INTO `m_season` (`season_id`, `season_explain`) VALUES
 (10, '10月'),
 (11, '11月'),
 (12, '12月');
+
+-- --------------------------------------------------------
+
+--
+-- テーブルの構造 `t_bto`
+--
+
+DROP TABLE IF EXISTS `t_bto`;
+CREATE TABLE `t_bto` (
+  `bto_id` int(10) UNSIGNED NOT NULL,
+  `product_id` int(10) UNSIGNED NOT NULL,
+  `bto_delivery_time` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- テーブルのデータのダンプ `t_bto`
+--
+
+INSERT INTO `t_bto` (`bto_id`, `product_id`, `bto_delivery_time`) VALUES
+(1, 2, '3週間後');
 
 -- --------------------------------------------------------
 
@@ -246,16 +268,17 @@ CREATE TABLE `t_contact` (
   `contact_email` varchar(100) NOT NULL,
   `contact_tel` varchar(15) NOT NULL,
   `contact_title` varchar(100) NOT NULL,
-  `contact_details` varchar(1000) NOT NULL
+  `contact_details` varchar(1000) NOT NULL,
+  `member_cd` int(10) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- テーブルのデータのダンプ `t_contact`
 --
 
-INSERT INTO `t_contact` (`contact_id`, `contact_name`, `contact_ruby`, `contact_email`, `contact_tel`, `contact_title`, `contact_details`) VALUES
-(1, 'ユーザ太郎', 'ユーザタロウ', 'user1@example.com', '1111111111', '問い合わせ1', '問い合わせ1の内容です。'),
-(2, 'ユーザ花子', 'ユーザハナコ', 'user2@example.com', '2222222222', '問い合わせ2', '問い合わせ2の内容です。');
+INSERT INTO `t_contact` (`contact_id`, `contact_name`, `contact_ruby`, `contact_email`, `contact_tel`, `contact_title`, `contact_details`, `member_cd`) VALUES
+(1, 'ユーザ太郎', 'ユーザタロウ', 'user1@example.com', '1111111111', '問い合わせ1', '問い合わせ1の内容です。', NULL),
+(2, 'ユーザ花子', 'ユーザハナコ', 'user2@example.com', '2222222222', '問い合わせ2', '問い合わせ2の内容です。', NULL);
 
 -- --------------------------------------------------------
 
@@ -294,16 +317,17 @@ CREATE TABLE `t_customer_info` (
   `customer_address` varchar(200) NOT NULL,
   `customer_room_number` varchar(100) DEFAULT NULL,
   `customer_birth` date DEFAULT NULL,
-  `gender_id` tinyint(3) UNSIGNED DEFAULT NULL
+  `gender_id` tinyint(3) UNSIGNED DEFAULT NULL,
+  `payment_cd` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- テーブルのデータのダンプ `t_customer_info`
 --
 
-INSERT INTO `t_customer_info` (`customer_id`, `customer_zip_code`, `prefecture_id`, `customer_address`, `customer_room_number`, `customer_birth`, `gender_id`) VALUES
-(1, '1111111', 1, '札幌市架空1-1', '101号室', '2001-01-01', 1),
-(2, '2222222', 2, '青森市架空2-2', '202号室', '2002-02-02', 2);
+INSERT INTO `t_customer_info` (`customer_id`, `customer_zip_code`, `prefecture_id`, `customer_address`, `customer_room_number`, `customer_birth`, `gender_id`, `payment_cd`) VALUES
+(1, '1111111', 1, '札幌市架空1-1', '101号室', '2001-01-01', 1, 2),
+(2, '2222222', 2, '青森市架空2-2', '202号室', '2002-02-02', 2, 2);
 
 -- --------------------------------------------------------
 
@@ -325,6 +349,26 @@ CREATE TABLE `t_group` (
 INSERT INTO `t_group` (`group_cd`, `group_id`, `product_id`) VALUES
 (1, 1, 1),
 (2, 2, 2);
+
+-- --------------------------------------------------------
+
+--
+-- テーブルの構造 `t_payment`
+--
+
+DROP TABLE IF EXISTS `t_payment`;
+CREATE TABLE `t_payment` (
+  `payment_cd` int(10) UNSIGNED NOT NULL,
+  `payment_explain` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- テーブルのデータのダンプ `t_payment`
+--
+
+INSERT INTO `t_payment` (`payment_cd`, `payment_explain`) VALUES
+(1, 'クレジットカード'),
+(2, '代金引換');
 
 -- --------------------------------------------------------
 
@@ -388,7 +432,8 @@ CREATE TABLE `t_stock` (
 
 INSERT INTO `t_stock` (`product_id`, `stock_num`) VALUES
 (1, 5),
-(2, 20);
+(2, 20),
+(3, 50);
 
 --
 -- ダンプしたテーブルのインデックス
@@ -411,6 +456,7 @@ ALTER TABLE `m_group`
 --
 ALTER TABLE `m_member`
   ADD PRIMARY KEY (`member_cd`),
+  ADD UNIQUE KEY `member_email` (`member_email`),
   ADD KEY `prefecture_id` (`prefecture_id`),
   ADD KEY `gender_id` (`gender_id`);
 
@@ -433,6 +479,13 @@ ALTER TABLE `m_season`
   ADD PRIMARY KEY (`season_id`);
 
 --
+-- テーブルのインデックス `t_bto`
+--
+ALTER TABLE `t_bto`
+  ADD PRIMARY KEY (`bto_id`),
+  ADD KEY `product_id` (`product_id`);
+
+--
 -- テーブルのインデックス `t_buy_history`
 --
 ALTER TABLE `t_buy_history`
@@ -444,7 +497,8 @@ ALTER TABLE `t_buy_history`
 -- テーブルのインデックス `t_contact`
 --
 ALTER TABLE `t_contact`
-  ADD PRIMARY KEY (`contact_id`);
+  ADD PRIMARY KEY (`contact_id`),
+  ADD KEY `member_cd` (`member_cd`);
 
 --
 -- テーブルのインデックス `t_credit_card`
@@ -459,7 +513,8 @@ ALTER TABLE `t_credit_card`
 ALTER TABLE `t_customer_info`
   ADD PRIMARY KEY (`customer_id`),
   ADD KEY `prefecture_id` (`prefecture_id`),
-  ADD KEY `gender_id` (`gender_id`);
+  ADD KEY `gender_id` (`gender_id`),
+  ADD KEY `payment_cd` (`payment_cd`);
 
 --
 -- テーブルのインデックス `t_group`
@@ -468,6 +523,12 @@ ALTER TABLE `t_group`
   ADD PRIMARY KEY (`group_cd`),
   ADD KEY `group_id` (`group_id`),
   ADD KEY `product_id` (`product_id`);
+
+--
+-- テーブルのインデックス `t_payment`
+--
+ALTER TABLE `t_payment`
+  ADD PRIMARY KEY (`payment_cd`);
 
 --
 -- テーブルのインデックス `t_sales`
@@ -512,13 +573,19 @@ ALTER TABLE `m_member`
 -- テーブルの AUTO_INCREMENT `m_product`
 --
 ALTER TABLE `m_product`
-  MODIFY `product_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `product_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- テーブルの AUTO_INCREMENT `m_season`
 --
 ALTER TABLE `m_season`
   MODIFY `season_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- テーブルの AUTO_INCREMENT `t_bto`
+--
+ALTER TABLE `t_bto`
+  MODIFY `bto_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- テーブルの AUTO_INCREMENT `t_buy_history`
@@ -568,11 +635,23 @@ ALTER TABLE `m_member`
   ADD CONSTRAINT `m_member_ibfk_2` FOREIGN KEY (`gender_id`) REFERENCES `m_gender` (`gender_id`) ON UPDATE CASCADE;
 
 --
+-- テーブルの制約 `t_bto`
+--
+ALTER TABLE `t_bto`
+  ADD CONSTRAINT `t_bto_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `m_product` (`product_id`) ON UPDATE CASCADE;
+
+--
 -- テーブルの制約 `t_buy_history`
 --
 ALTER TABLE `t_buy_history`
   ADD CONSTRAINT `t_buy_history_ibfk_1` FOREIGN KEY (`member_cd`) REFERENCES `m_member` (`member_cd`) ON UPDATE CASCADE,
   ADD CONSTRAINT `t_buy_history_ibfk_2` FOREIGN KEY (`sales_id`) REFERENCES `t_sales` (`sales_id`) ON UPDATE CASCADE;
+
+--
+-- テーブルの制約 `t_contact`
+--
+ALTER TABLE `t_contact`
+  ADD CONSTRAINT `t_contact_ibfk_1` FOREIGN KEY (`member_cd`) REFERENCES `m_member` (`member_cd`) ON UPDATE CASCADE;
 
 --
 -- テーブルの制約 `t_credit_card`
@@ -585,7 +664,8 @@ ALTER TABLE `t_credit_card`
 --
 ALTER TABLE `t_customer_info`
   ADD CONSTRAINT `t_customer_info_ibfk_1` FOREIGN KEY (`prefecture_id`) REFERENCES `m_prefecture` (`prefecture_id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `t_customer_info_ibfk_2` FOREIGN KEY (`gender_id`) REFERENCES `m_gender` (`gender_id`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `t_customer_info_ibfk_2` FOREIGN KEY (`gender_id`) REFERENCES `m_gender` (`gender_id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `t_customer_info_ibfk_3` FOREIGN KEY (`payment_cd`) REFERENCES `t_payment` (`payment_cd`) ON UPDATE CASCADE;
 
 --
 -- テーブルの制約 `t_group`
