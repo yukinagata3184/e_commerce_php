@@ -38,7 +38,7 @@ function tryLogin(string $email, string $password): bool{
         $masterInfo = getLoginInfo($dbh, $email);
         // メールアドレスまたはパスワードがないとき
         if(empty($masterInfo[0]['member_email']) || empty($masterInfo[0]['member_password'])){
-            $_SESSION['login'] = false;
+            // $_SESSION['login'] = false;
             return false;
         }
         // メールアドレスとパスワードが一致したとき
@@ -51,12 +51,20 @@ function tryLogin(string $email, string $password): bool{
             return true;
         // メールアドレスかパスワードが間違っているとき
         } else {
-            $_SESSION['login'] = false;
+            // $_SESSION['login'] = false;
             return false;
         }
     } catch(PDOException $e) {
         // echo 'エラー！：' . str2html($e->getMessage());
-        $_SESSION['login'] = false;
+        // $_SESSION['login'] = false;
         return false;
     }
+}
+
+/**
+ * @brief ログアウト処理。
+ */
+function logout(): void{
+    $_SESSION = [];
+    session_destroy();
 }
