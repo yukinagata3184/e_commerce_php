@@ -13,7 +13,7 @@ require_once __DIR__ . '/../logic/db_access.php';
 function testOpenDb(): void {
     $dbh = openDb();
     $assertEqual = ((get_class($dbh) === 'PDO') ? 'passed' : 'failed');
-    echo 'testGetSaltTrue : ' . $assertEqual . '<br>' . PHP_EOL;
+    echo 'testGetOpenDb : ' . $assertEqual . '<br>' . PHP_EOL;
 }
 
 /**
@@ -37,6 +37,7 @@ function testGetDbAll(PDO $dbh, string $tableName): void {
 function testGetLoginInfo(PDO $dbh, string $email): void {
     $loginInfo = getLoginInfo($dbh, $email);
     echo 'testGetLoginInfo : ' . '<br>' . PHP_EOL;
+    echo ' 会員コード:' . $loginInfo[0]['member_cd'] . '<br>' . PHP_EOL;
     echo ' メール:' . $loginInfo[0]['member_email'] . '<br>' . PHP_EOL;
     echo ' パスワード:' . $loginInfo[0]['member_password'] . '<br>' . PHP_EOL;
     echo ' ユーザ名:' . $loginInfo[0]['member_name'] . '<br>' . PHP_EOL;
@@ -78,13 +79,21 @@ function testSearchProductFmDb(PDO $dbh, string $searchWord): void {
 }
 
 testOpenDb();
+echo '<br>' . PHP_EOL;
 testGetDbAll(openDb(), 'm_product');
 testGetDbAll(openDb(), 'm_member');
+echo '<br>' . PHP_EOL;
 testGetLoginInfo(openDb(), 'user1@example.com');
 testGetLoginInfo(openDb(), 'user2@example.com');
+echo '<br>' . PHP_EOL;
 testGetDbSelected(openDb(), 't_group', 'group_id', 1);
+echo '<br>' . PHP_EOL;
 testGetDbSelected(openDb(), 't_season', 'season_id', 1);
+echo '<br>' . PHP_EOL;
 testGetDbSalesRank(openDb(), 1);
+echo '<br>' . PHP_EOL;
 testGetDbSalesRank(openDb(), 3);
+echo '<br>' . PHP_EOL;
 testSearchProductFmDb(openDb(), '商品');
+echo '<br>' . PHP_EOL;
 testSearchProductFmDb(openDb(), '存在しない');
