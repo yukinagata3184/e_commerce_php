@@ -44,7 +44,7 @@ function getDbAll(PDO $dbh, string $tableName): array {
  * @retval [array] DBから取得したメールアドレスとパスワード、氏名を格納した配列。
  */
 function getLoginInfo(PDO $dbh, string $email): array {
-    $sql = "SELECT `member_email`, `member_password`, `member_name`
+    $sql = "SELECT `member_cd`, `member_email`, `member_password`, `member_name`
             FROM `m_member`
             WHERE `member_email` = :member_email";
     $stmt = $dbh->prepare($sql);
