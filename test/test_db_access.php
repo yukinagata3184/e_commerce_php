@@ -78,6 +78,17 @@ function testSearchProductFmDb(PDO $dbh, string $searchWord): void {
     var_dump($search);
 }
 
+/**
+ * @brief isExistBto()で受注生産の商品かをチェックできているかテスト。
+ * @param $product_id [int] 商品ID。
+ */
+function testIsExistBto(PDO $dbh, int $product_id): void {
+    $isExist = isExistBto($dbh, $product_id);
+    echo '商品ID->' . $product_id . ' is exist :';
+    var_dump($isExist);
+    echo '<br>' . PHP_EOL;
+}
+
 testOpenDb();
 echo '<br>' . PHP_EOL;
 testGetDbAll(openDb(), 'm_product');
@@ -97,3 +108,6 @@ echo '<br>' . PHP_EOL;
 testSearchProductFmDb(openDb(), '商品');
 echo '<br>' . PHP_EOL;
 testSearchProductFmDb(openDb(), '存在しない');
+echo '<br>' . PHP_EOL;
+testIsExistBto(openDb(), 1);
+testIsExistBto(openDb(), 2);

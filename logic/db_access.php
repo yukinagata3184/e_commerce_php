@@ -126,7 +126,21 @@ function searchProductFmDb(PDO $dbh, string $searchWord): array {
 function isExistEmail(PDO $dbh, string $email): bool {
     $sql = "SELECT `member_email` FROM `m_member` WHERE `member_email` = :member_email";
     $stmt = $dbh->prepare($sql);
-    $stmt->bindValue(':member_email', $email, PDO::PARAM_STR);
+    $stmt->bindParam(':member_email', $email, PDO::PARAM_STR);
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return !empty($result);
+}
+
+/**
+ * @brief 引数で与えた商品IDが、受注生産の商品かをチェックする。
+ * @param $product_id [int] 商品ID。
+ * @retval [bool] 指定した商品IDが受注生産の商品か。
+ */
+function isExistBto(PDO $dbh, int $product_id): bool {
+    $sql = "SELECT `product_id` FROM `t_bto` WHERE `product_id` = :product_id";
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
     $stmt->execute();
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     return !empty($result);
