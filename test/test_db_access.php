@@ -79,6 +79,18 @@ function testSearchProductFmDb(PDO $dbh, string $searchWord): void {
 }
 
 /**
+ * @brief 登録するメールアドレスがユニークかチェックする関数の単体テスト。
+ * @param $email [string] 登録するメールアドレス。
+ * @retval [bool] 登録するメールアドレスが既に存在するか。
+ */
+function testIsExistEmail(PDO $dbh, string $email): void {
+    $isExist = isExistEmail($dbh, $email);
+    echo $email . ' is exist :';
+    var_dump($isExist);
+    echo '<br>' . PHP_EOL;
+}
+
+/**
  * @brief isExistBto()で受注生産の商品かをチェックできているかテスト。
  * @param $product_id [int] 商品ID。
  */
@@ -99,15 +111,24 @@ testGetLoginInfo(openDb(), 'user2@example.com');
 echo '<br>' . PHP_EOL;
 testGetDbSelected(openDb(), 't_group', 'group_id', 1);
 echo '<br>' . PHP_EOL;
+echo '<br>' . PHP_EOL;
 testGetDbSelected(openDb(), 't_season', 'season_id', 1);
+echo '<br>' . PHP_EOL;
 echo '<br>' . PHP_EOL;
 testGetDbSalesRank(openDb(), 1);
 echo '<br>' . PHP_EOL;
+echo '<br>' . PHP_EOL;
 testGetDbSalesRank(openDb(), 3);
+echo '<br>' . PHP_EOL;
 echo '<br>' . PHP_EOL;
 testSearchProductFmDb(openDb(), '商品');
 echo '<br>' . PHP_EOL;
+echo '<br>' . PHP_EOL;
 testSearchProductFmDb(openDb(), '存在しない');
+echo '<br>' . PHP_EOL;
+echo '<br>' . PHP_EOL;
+testIsExistEmail(openDb(), 'user1@example.com');
+testIsExistEmail(openDb(), 'usa@example.com');
 echo '<br>' . PHP_EOL;
 testIsExistBto(openDb(), 1);
 testIsExistBto(openDb(), 2);
