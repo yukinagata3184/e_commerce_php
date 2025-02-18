@@ -107,3 +107,33 @@ function updateDbStock(PDO $dbh, int $product_id, int $stock_num): void {
     $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
     $stmt->execute();
 }
+
+/**
+ * @brief 購入者情報をDBに保存。
+ * @param $dbh [PDO] db_open()で取得したデータベースオブジェクトを指定。
+ * @param $customer_zip_code [string] 郵便番号。
+ * @param $prefecture_id [int] 都道府県。
+ * @param $customer_address [string] 住所(県名除く)。
+ * @param $customer_room_number [string] 部屋番号。
+ * @param $customer_birth [string] 生年月日。
+ * @param $gender_id [int] 性別ID。
+ * @param $payment_cd [int] 支払い方法コード。
+ */
+function insertDbCustomerInfo(PDO $dbh, string $customer_zip_code, int $prefecture_id,
+                              string $customer_address, string $customer_room_number,
+                              string $customer_birth, int $gender_id, int $payment_cd): void {
+    $sql = "INSERT INTO `t_customer_info` (`customer_zip_code`, `prefecture_id`,
+                        `customer_address`, `customer_room_number`, `customer_birth`,
+                        `gender_id`, `payment_cd`)
+            VALUES (:customer_zip_code, :prefecture_id, :customer_address,
+                    :customer_room_number, :customer_birth, :gender_id, :payment_cd)";
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':customer_zip_code', $customer_zip_code, PDO::PARAM_STR);
+    $stmt->bindParam(':prefecture_id', $prefecture_id, PDO::PARAM_INT);
+    $stmt->bindParam(':customer_address', $customer_address, PDO::PARAM_STR);
+    $stmt->bindParam(':customer_room_number', $customer_room_number, PDO::PARAM_STR);
+    $stmt->bindParam(':customer_birth', $customer_birth, PDO::PARAM_STR);
+    $stmt->bindParam(':gender_id', $gender_id, PDO::PARAM_INT);
+    $stmt->bindParam(':payment_cd', $payment_cd, PDO::PARAM_INT);
+    $stmt->execute();
+}
