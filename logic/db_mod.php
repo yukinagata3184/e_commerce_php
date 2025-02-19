@@ -157,3 +157,18 @@ function insertDbSales(PDO $dbh, int $customer_id, int $product_id, int $sales_n
     $stmt->bindParam(':sales_date', $sales_date, PDO::PARAM_STR);
     $stmt->execute();
 }
+
+/**
+ * @brief ログイン中のとき、ユーザの購入履歴をDBに保存。
+ * @param $dbh [PDO] db_open()で取得したデータベースオブジェクトを指定。
+ * @param $member_cd [int] 会員コード。
+ * @param $sales_id [int] 売上ID。
+ */
+function insertDbBuyHistory(PDO $dbh, int $member_cd, int $sales_id): void {
+    $sql = "INSERT INTO `t_buy_history` (`member_cd`, `sales_id`)
+            VALUES (:member_cd, :sales_id)";
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':member_cd', $member_cd, PDO::PARAM_INT);
+    $stmt->bindParam(':sales_id', $sales_id, PDO::PARAM_INT);
+    $stmt->execute();
+}
