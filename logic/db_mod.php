@@ -137,3 +137,23 @@ function insertDbCustomerInfo(PDO $dbh, string $customer_zip_code, int $prefectu
     $stmt->bindParam(':payment_cd', $payment_cd, PDO::PARAM_INT);
     $stmt->execute();
 }
+
+/**
+ * @brief 売上情報をDBに保存。
+ * @param $dbh [PDO] db_open()で取得したデータベースオブジェクトを指定。
+ * @param $customer_id [int] 購入者ID。
+ * @param $product_id [int] 商品ID。
+ * @param $sales_num [int] 個数。
+ * @param $sales_date [string] 購入日。
+ */
+function insertDbSales(PDO $dbh, int $customer_id, int $product_id, int $sales_num,
+                       string $sales_date): void {
+    $sql = "INSERT INTO `t_sales` (`customer_id`, `product_id`, `sales_num`, `sales_date`) 
+            VALUES (:customer_id, :product_id, :sales_num, :sales_date)";
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':customer_id', $customer_id, PDO::PARAM_INT);
+    $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
+    $stmt->bindParam(':sales_num', $sales_num, PDO::PARAM_INT);
+    $stmt->bindParam(':sales_date', $sales_date, PDO::PARAM_STR);
+    $stmt->execute();
+}
