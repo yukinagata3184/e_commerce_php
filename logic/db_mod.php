@@ -21,12 +21,12 @@ function insertDbContact(PDO $dbh, string $name, string $ruby, string $email, st
                                      `contact_tel`, `contact_title`, `contact_details`)
             VALUES (:name, :ruby, :email, :tel, :title, :details)";
     $stmt = $dbh->prepare($sql);
-    $stmt->bindParam(':name', $name);
-    $stmt->bindParam(':ruby', $ruby);
-    $stmt->bindParam(':email', $email);
-    $stmt->bindParam(':tel', $tel);
-    $stmt->bindParam(':title', $title);
-    $stmt->bindParam(':details', $details);
+    $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+    $stmt->bindParam(':ruby', $ruby, PDO::PARAM_STR);
+    $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+    $stmt->bindParam(':tel', $tel, PDO::PARAM_STR);
+    $stmt->bindParam(':title', $title, PDO::PARAM_STR);
+    $stmt->bindParam(':details', $details, PDO::PARAM_STR);
     $stmt->execute();
 }
 
@@ -55,17 +55,17 @@ function insertDbMember(PDO $dbh, string $password, string $name, string $ruby,
             VALUES (:password, :name, :ruby, :email, :tel, :zip_code, :prefecture_id,
                     :address, :room_number, :birth, :gender_id)";
     $stmt = $dbh->prepare($sql);
-    $stmt->bindParam(':password', $password);
-    $stmt->bindParam(':name', $name);
-    $stmt->bindParam(':ruby', $ruby);
-    $stmt->bindParam(':email', $email);
-    $stmt->bindParam(':tel', $tel);
-    $stmt->bindParam(':zip_code', $zip_code);
-    $stmt->bindParam(':prefecture_id', $prefecture_id);
-    $stmt->bindParam(':address', $address);
-    $stmt->bindParam(':room_number', $room_number);
-    $stmt->bindParam(':birth', $birth);
-    $stmt->bindParam(':gender_id', $gender_id);
+    $stmt->bindParam(':password', $password, PDO::PARAM_STR);
+    $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+    $stmt->bindParam(':ruby', $ruby, PDO::PARAM_STR);
+    $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+    $stmt->bindParam(':tel', $tel, PDO::PARAM_STR);
+    $stmt->bindParam(':zip_code', $zip_code, PDO::PARAM_STR);
+    $stmt->bindParam(':prefecture_id', $prefecture_id, PDO::PARAM_STR);
+    $stmt->bindParam(':address', $address, PDO::PARAM_STR);
+    $stmt->bindParam(':room_number', $room_number, PDO::PARAM_STR);
+    $stmt->bindParam(':birth', $birth, PDO::PARAM_STR);
+    $stmt->bindParam(':gender_id', $gender_id, PDO::PARAM_STR);
     $stmt->execute();
 }
 
@@ -84,11 +84,11 @@ function insertDbCreditCard(PDO $dbh, string $member_cd, string $number, string 
                         `credit_card_expiration`, `credit_card_name`, `credit_card_cvc`) 
             VALUES (:member_cd, :number, :expiration, :name, :cvc)";
     $stmt = $dbh->prepare($sql);
-    $stmt->bindParam(':member_cd', $member_cd);
-    $stmt->bindParam(':number', $number);
-    $stmt->bindParam(':expiration', $expiration);
-    $stmt->bindParam(':name', $name);
-    $stmt->bindParam(':cvc', $cvc);
+    $stmt->bindParam(':member_cd', $member_cd, PDO::PARAM_STR);
+    $stmt->bindParam(':number', $number, PDO::PARAM_STR);
+    $stmt->bindParam(':expiration', $expiration, PDO::PARAM_STR);
+    $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+    $stmt->bindParam(':cvc', $cvc, PDO::PARAM_STR);
     $stmt->execute();
 }
 
