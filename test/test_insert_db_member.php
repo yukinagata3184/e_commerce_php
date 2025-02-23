@@ -1,6 +1,6 @@
 <?php
 /**
- * @file test_insert_db_contact.php
+ * @file test_insert_db_member.php
  * @brief insertDbContact() の単体テスト。
  * @author nagata
  */
