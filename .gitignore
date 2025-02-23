@@ -1,0 +1,7 @@
+# Officeファイルは除外
+*.doc*
+*.xls*
+*.ppt*
+
+# Doxygenで生成した詳細設計書を除外
+doxygen/
